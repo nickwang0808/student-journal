@@ -35,7 +35,16 @@ const Home: FC = () => {
   }
   return (
     <List sx={{ width: "100%", maxWidth: 900, bgcolor: "background.paper" }}>
+      <ListItem>
+        <ListItemButton onClick={() => navigate("create")}>
+          + Add new journal
+        </ListItemButton>
+      </ListItem>
+      <Divider variant="middle" component="li" />
+
       {data?.map(({ title, quote, createdAt, id }) => {
+        console.log({ createdAt });
+
         return (
           <>
             <ListItem>
@@ -47,7 +56,7 @@ const Home: FC = () => {
                   <ListItemText primary={quote.content} />
                 </Grid>
                 <Grid item>
-                  <ListItemText primary={new Date(createdAt).toDateString()} />
+                  <ListItemText primary={new Date(createdAt).toString()} />
                 </Grid>
               </Grid>
               <ListItemButton onClick={() => handleDeleteJournal(id)}>

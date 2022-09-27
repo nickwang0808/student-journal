@@ -6,7 +6,6 @@ import {
   ForeignKey,
   Model,
   Table,
-  UpdatedAt,
 } from "sequelize-typescript";
 import Quote from "./Quote";
 
@@ -27,10 +26,7 @@ class Journal extends Model {
   quote: Quote;
 
   @CreatedAt
-  creationAt: Date;
-
-  @UpdatedAt
-  updatedOn: Date;
+  createdAt: Date;
 }
 
 export default Journal;

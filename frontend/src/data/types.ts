@@ -5,7 +5,6 @@ export interface Journal {
   quoteId: number;
   quote: Quote;
   createdAt: Date;
-  updatedOn: Date;
 }
 
 export interface Quote {

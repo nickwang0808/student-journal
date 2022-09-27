@@ -5,7 +5,6 @@ export const data = [
     content: "content",
     quote: { content: "quote 1" },
     createdAt: Date.now(),
-    updatedAt: Date.now(),
   },
   {
     id: 2,
@@ -13,7 +12,6 @@ export const data = [
     content: "content",
     quote: { content: "quote 2" },
     createdAt: Date.now(),
-    updatedAt: Date.now(),
   },
   {
     id: 3,
@@ -21,7 +19,6 @@ export const data = [
     content: "content",
     quote: { content: "quote 3" },
     createdAt: Date.now(),
-    updatedAt: Date.now(),
   },
   {
     id: 4,
@@ -29,6 +26,5 @@ export const data = [
     content: "content",
     quote: { content: "quote 4" },
     createdAt: Date.now(),
-    updatedAt: Date.now(),
   },
 ];
