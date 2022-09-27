@@ -12,6 +12,7 @@ router.get("/journals", async (req: Request, res: Response) => {
   try {
     const allJournals = await await Journal.findAll({
       include: [Quote],
+      order: [["createdAt", "desc"]],
     });
     res.status(200).json(allJournals);
   } catch (error) {

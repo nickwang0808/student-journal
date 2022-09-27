@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -37,7 +37,7 @@ const Edit = () => {
       title: formData.title,
       content: formData.content,
     });
-    navigate(-1);
+    navigate("../");
   };
 
   if (isLoading) {
@@ -46,37 +46,40 @@ const Edit = () => {
   if (error) {
   } // display error
   return (
-    <Box component="form" noValidate autoComplete="off">
-      <Grid container direction="column" gap={2}>
-        <Grid item>
-          <TextField
-            label="Title"
-            variant="outlined"
-            fullWidth
-            value={formData.title}
-            onChange={({ target }) =>
-              setFormData((prev) => ({ ...prev, title: target.value }))
-            }
-          />
+    <>
+      <Box component="form" noValidate autoComplete="off">
+        <Grid container direction="column" gap={2}>
+          <Grid item>
+            <TextField
+              label="Title"
+              variant="outlined"
+              fullWidth
+              value={formData.title}
+              onChange={({ target }) =>
+                setFormData((prev) => ({ ...prev, title: target.value }))
+              }
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Content"
+              variant="outlined"
+              multiline
+              fullWidth
+              minRows={10}
+              value={formData.content}
+              onChange={({ target }) =>
+                setFormData((prev) => ({ ...prev, content: target.value }))
+              }
+            />
+          </Grid>
+          <Grid item>
+            <Typography>{formData.quote.content}</Typography>
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            label="Content"
-            variant="outlined"
-            multiline
-            fullWidth
-            minRows={10}
-            value={formData.content}
-            onChange={({ target }) =>
-              setFormData((prev) => ({ ...prev, content: target.value }))
-            }
-          />
-        </Grid>
-        <Grid item>
-          <Typography>{formData.quote.content}</Typography>
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+      <Button onClick={handlePatchJournal}>Save</Button>
+    </>
   );
 };
 

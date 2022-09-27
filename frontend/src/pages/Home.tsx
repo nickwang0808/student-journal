@@ -13,6 +13,9 @@ import {
   useGetAllJournalsQuery,
 } from "../data/queries";
 
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 const Home: FC = () => {
   const { data, isLoading, error } = useGetAllJournalsQuery();
 
@@ -24,7 +27,7 @@ const Home: FC = () => {
     await deleteJournal({
       id: Number(id!),
     });
-    navigate(-1);
+    navigate("../");
   };
 
   if (isLoading) {
@@ -37,7 +40,7 @@ const Home: FC = () => {
     <List sx={{ width: "100%", maxWidth: 900, bgcolor: "background.paper" }}>
       <ListItem>
         <ListItemButton onClick={() => navigate("create")}>
-          + Add new journal
+          <AddIcon /> Add new journal
         </ListItemButton>
       </ListItem>
       <Divider variant="middle" component="li" />
@@ -48,7 +51,15 @@ const Home: FC = () => {
         return (
           <>
             <ListItem>
-              <Grid container direction="column">
+              <Grid
+                container
+                direction="column"
+                sx={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/edit/${id}`);
+                }}
+              >
                 <Grid item>
                   <ListItemText primary={title} />
                 </Grid>
@@ -59,8 +70,13 @@ const Home: FC = () => {
                   <ListItemText primary={new Date(createdAt).toString()} />
                 </Grid>
               </Grid>
-              <ListItemButton onClick={() => handleDeleteJournal(id)}>
-                X
+              <ListItemButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteJournal(id);
+                }}
+              >
+                <DeleteIcon />
               </ListItemButton>
             </ListItem>
             <Divider variant="middle" component="li" />

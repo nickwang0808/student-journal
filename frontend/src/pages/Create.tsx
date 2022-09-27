@@ -1,7 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getQuote, usePostJournalMutation } from "../data/queries";
+import { usePostJournalMutation } from "../data/queries";
 import { PostArg } from "../data/types";
 
 const Create = () => {
@@ -22,12 +22,12 @@ const Create = () => {
   };
 
   // error handling will be implemented in prod code base
-  useEffect(() => {
-    (async () => {
-      const quote = await getQuote();
-      setFormData((prev) => ({ ...prev, quote: { content: quote[0].q } }));
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const quote = await getQuote();
+  //     setFormData((prev) => ({ ...prev, quote: { content: quote[0].q } }));
+  //   })();
+  // }, []);
 
   return (
     <>
