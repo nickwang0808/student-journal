@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { FC } from "react";
+import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useDeleteJournalMutation,
@@ -46,10 +46,8 @@ const Home: FC = () => {
       <Divider variant="middle" component="li" />
 
       {data?.map(({ title, quote, createdAt, id }) => {
-        console.log({ createdAt });
-
         return (
-          <>
+          <React.Fragment key={id}>
             <ListItem>
               <Grid
                 container
@@ -64,7 +62,7 @@ const Home: FC = () => {
                   <ListItemText primary={title} />
                 </Grid>
                 <Grid item>
-                  <ListItemText primary={quote.content} />
+                  <ListItemText primary={<i>"{quote.content}"</i>} />
                 </Grid>
                 <Grid item>
                   <ListItemText primary={new Date(createdAt).toString()} />
@@ -80,7 +78,7 @@ const Home: FC = () => {
               </ListItemButton>
             </ListItem>
             <Divider variant="middle" component="li" />
-          </>
+          </React.Fragment>
         );
       })}
     </List>

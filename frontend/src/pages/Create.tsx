@@ -1,14 +1,14 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePostJournalMutation } from "../data/queries";
+import { useGetQuoteQuery, usePostJournalMutation } from "../data/queries";
 import { PostArg } from "../data/types";
 
 const Create = () => {
   const [formData, setFormData] = useState<PostArg>({
     title: "",
     content: "",
-    quote: { content: "Place holder quote" },
+    quote: { content: "A quote will show up shortly..." },
   });
 
   const [postJournal] = usePostJournalMutation();
@@ -22,12 +22,13 @@ const Create = () => {
   };
 
   // error handling will be implemented in prod code base
-  // useEffect(() => {
-  //   (async () => {
-  //     const quote = await getQuote();
-  //     setFormData((prev) => ({ ...prev, quote: { content: quote[0].q } }));
-  //   })();
-  // }, []);
+  const { data } = useGetQuoteQuery();
+
+  useEffect(() => {
+    if (data) {
+      setFormData((prev) => ({ ...prev, quote: { content: data[0].q } }));
+    }
+  }, [data]);
 
   return (
     <>

@@ -4,12 +4,16 @@ import { Journal, PatchArg, PostArg } from "./types";
 
 export const api = createApi({
   reducerPath: "journalApi",
-  // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000" }),
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000",
   }),
   tagTypes: ["journals"],
   endpoints: (builder) => ({
+    getQuote: builder.query<any, void>({
+      query: () => ({
+        url: "https://cors-anywhere.herokuapp.com/https://zenquotes.io/api/random",
+      }),
+    }),
     getAllJournals: builder.query<Journal[], void>({
       query: () => `/journals`,
       providesTags: ["journals"],
@@ -29,26 +33,6 @@ export const api = createApi({
         body: arg,
       }),
       invalidatesTags: ["journals"],
-      // async onQueryStarted(
-      //   { todos, optimistic },
-      //   { dispatch, queryFulfilled }
-      // ) {
-      //   if (optimistic) {
-      //     dispatch(
-      //       api.util.updateQueryData("getAllTodos", undefined, (draft) => {
-      //         return todos.map((arg) => {
-      //           const name = draft.find((elem) => elem.id === arg.id)?.name!;
-      //           return { ...arg, name, order: arg.order! };
-      //         });
-      //       })
-      //     );
-      //     try {
-      //       await queryFulfilled;
-      //     } catch {
-      //       dispatch(api.util.invalidateTags(["journals"]));
-      //     }
-      //   }
-      // },
     }),
     deleteJournal: builder.mutation<string, { id: number }>({
       query: (arg) => ({
@@ -66,11 +50,19 @@ export const {
   usePostJournalMutation,
   usePatchJournalMutation,
   useDeleteJournalMutation,
+  useGetQuoteQuery,
 } = api;
 
 export const getQuote = async () => {
-  const data = await fetch("https://zenquotes.io/api/random");
-  return await data.json();
+  // const url = "https://zenquotes.io/api/random";
+
+  const url =
+    "https://cors-anywhere.herokuapp.com/https://zenquotes.io/api/random";
+
+  const res = await fetch(url);
+
+  const data = await res.json();
+  return data;
 };
 
 export const store = configureStore({
