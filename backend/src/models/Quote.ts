@@ -6,7 +6,7 @@ class Quote extends Model {
   @Column
   name: string;
 
-  @HasOne(() => Journal)
+  @HasOne(() => Journal, { onDelete: "CASCADE" })
   journal: Journal;
 }
 

@@ -24,7 +24,7 @@ class Journal extends Model {
   @Column
   quoteId: number;
 
-  @BelongsTo(() => Quote)
+  @BelongsTo(() => Quote, { onDelete: "CASCADE" })
   quote: Quote;
 
   @CreatedAt

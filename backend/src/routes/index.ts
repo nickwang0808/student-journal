@@ -24,22 +24,31 @@ router.post(
   "/journals",
   body("title").isString(),
   body("description").isString().optional(true),
-  body("quote.name").isString(),
+  body("quote").custom((value) => {
+    if (!value?.name) {
+      throw new Error("quote is missing name");
+    }
+    return true;
+  }),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(422)
+        .json({ errors: errors.array(), Text: "schema validation failure" });
     }
 
     try {
       const { title, description, quote } = req.body;
 
-      const newJournal = (
-        await Journal.create({
-          title,
-          description,
-        })
-      ).$set("quote", quote);
+      const newJournal = await Journal.create({
+        title,
+        description,
+      });
+      await newJournal.$create("quote", quote);
+
+      await newJournal.$get("quote");
 
       return res.status(200).json(newJournal);
     } catch (error) {
@@ -57,7 +66,9 @@ router.patch(
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(422)
+        .json({ errors: errors.array(), Text: "schema validation failure" });
     }
 
     const { id, title, description } = req.body as Journal;
@@ -77,15 +88,26 @@ router.patch(
 
 router.delete(
   "/journals",
-  body("id").isArray(),
+  body("id").isNumeric(),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(422)
+        .json({ errors: errors.array(), Text: "schema validation failure" });
     }
 
+    const id = req.body.id as number;
+
     try {
-      await Journal.destroy({ where: { id: req.body.id } });
+      // foreign key is in Journay model, so delete is not casacading in Journal
+      const journal = await Journal.findByPk(id, { include: [Quote] });
+      if (!journal) {
+        return res.status(404).send("journal not found");
+      }
+
+      journal.quote.destroy({});
+
       return res.status(200).send("delete successful");
     } catch (error) {
       console.error(error);

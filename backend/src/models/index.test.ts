@@ -13,6 +13,13 @@ describe("models works", () => {
     await db.close();
   });
 
+  it("should have no journals and no quotes", async () => {
+    const journals = await Journal.findAll();
+    const quotes = await Quote.findAll();
+    expect(journals.length).toBe(0);
+    expect(quotes.length).toBe(0);
+  });
+
   it("should create quote table and insert 1 quote", async () => {
     await Quote.create({ name: "first quote" });
 
@@ -31,9 +38,21 @@ describe("models works", () => {
     ).$create("quote", { name: "second quote" });
 
     const journal = await Journal.findOne({ include: [Quote] });
-    console.log({ journal });
 
     expect(journal?.title).toBe("first journal");
     expect(journal?.quote?.name).toBe("second quote");
+  });
+
+  it("quote ondelete is cascading", async () => {
+    const journal = await Journal.findOne({ include: [Quote] });
+    if (!journal) {
+      throw new Error("no journal to be deleted");
+    }
+
+    journal.quote.destroy();
+
+    const journals = await Journal.findAll();
+
+    expect(journals.length).toBe(0);
   });
 });
