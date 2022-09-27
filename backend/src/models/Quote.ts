@@ -4,7 +4,7 @@ import Journal from "./Journal";
 @Table
 class Quote extends Model {
   @Column
-  name: string;
+  content: string;
 
   @HasOne(() => Journal, { onDelete: "CASCADE" })
   journal: Journal;

@@ -23,9 +23,9 @@ router.get("/journals", async (req: Request, res: Response) => {
 router.post(
   "/journals",
   body("title").isString(),
-  body("description").isString().optional(true),
+  body("content").isString().optional(true),
   body("quote").custom((value) => {
-    if (!value?.name) {
+    if (!value?.content) {
       throw new Error("quote is missing name");
     }
     return true;
@@ -40,11 +40,11 @@ router.post(
     }
 
     try {
-      const { title, description, quote } = req.body;
+      const { title, content, quote } = req.body;
 
       const newJournal = await Journal.create({
         title,
-        description,
+        content,
       });
       await newJournal.$create("quote", quote);
 
@@ -62,7 +62,7 @@ router.patch(
   "/journals",
   body("id").isInt(),
   body("title").isString(),
-  body("description").isString(),
+  body("content").isString(),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -71,12 +71,12 @@ router.patch(
         .json({ errors: errors.array(), Text: "schema validation failure" });
     }
 
-    const { id, title, description } = req.body as Journal;
+    const { id, title, content } = req.body as Journal;
 
     try {
       const journalToUpdate = await Journal.findByPk(id);
 
-      const newJournal = await journalToUpdate?.update({ title, description });
+      const newJournal = await journalToUpdate?.update({ title, content });
 
       return res.status(200).send(newJournal);
     } catch (error) {

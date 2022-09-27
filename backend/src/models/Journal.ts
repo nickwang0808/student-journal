@@ -3,7 +3,6 @@ import {
   BelongsTo,
   Column,
   CreatedAt,
-  DeletedAt,
   ForeignKey,
   Model,
   Table,
@@ -18,7 +17,7 @@ class Journal extends Model {
   title: string;
 
   @Column
-  description: string;
+  content: string;
 
   @ForeignKey(() => Quote)
   @Column
@@ -28,13 +27,10 @@ class Journal extends Model {
   quote: Quote;
 
   @CreatedAt
-  creationDate: Date;
+  creationAt: Date;
 
   @UpdatedAt
   updatedOn: Date;
-
-  @DeletedAt
-  deletionDate: Date;
 }
 
 export default Journal;

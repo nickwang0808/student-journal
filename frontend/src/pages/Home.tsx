@@ -1,11 +1,41 @@
-import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import { FC } from "react";
-import { data } from "../data";
+import { useNavigate } from "react-router-dom";
+import {
+  useDeleteJournalMutation,
+  useGetAllJournalsQuery,
+} from "../data/queries";
 
 const Home: FC = () => {
+  const { data, isLoading, error } = useGetAllJournalsQuery();
+
+  const [deleteJournal] = useDeleteJournalMutation();
+
+  const navigate = useNavigate();
+
+  const handleDeleteJournal = async (id: number | string) => {
+    await deleteJournal({
+      id: Number(id!),
+    });
+    navigate(-1);
+  };
+
+  if (isLoading) {
+    // display loading view
+  }
+  if (error) {
+    // display error view
+  }
   return (
     <List sx={{ width: "100%", maxWidth: 900, bgcolor: "background.paper" }}>
-      {data.map(({ title, quote, createdAt }) => {
+      {data?.map(({ title, quote, createdAt, id }) => {
         return (
           <>
             <ListItem>
@@ -17,9 +47,12 @@ const Home: FC = () => {
                   <ListItemText primary={quote.content} />
                 </Grid>
                 <Grid item>
-                  <ListItemText primary={createdAt.toLocaleString()} />
+                  <ListItemText primary={new Date(createdAt).toDateString()} />
                 </Grid>
               </Grid>
+              <ListItemButton onClick={() => handleDeleteJournal(id)}>
+                X
+              </ListItemButton>
             </ListItem>
             <Divider variant="middle" component="li" />
           </>

@@ -51,10 +51,10 @@ export const api = createApi({
       // },
     }),
     deleteJournal: builder.mutation<string, { id: number }>({
-      query: (id) => ({
+      query: (arg) => ({
         url: "/journals",
         method: "DELETE",
-        body: { id },
+        body: arg,
       }),
       invalidatesTags: ["journals"],
     }),
@@ -67,6 +67,11 @@ export const {
   usePatchJournalMutation,
   useDeleteJournalMutation,
 } = api;
+
+export const getQuote = async () => {
+  const data = await fetch("https://zenquotes.io/api/random");
+  return await data.json();
+};
 
 export const store = configureStore({
   reducer: {

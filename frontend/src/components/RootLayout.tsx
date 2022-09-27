@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ marginTop: 2 }}>
       <Outlet />
     </Container>
   );

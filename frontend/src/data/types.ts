@@ -4,7 +4,7 @@ export interface Journal {
   content: string | null;
   quoteId: number;
   quote: Quote;
-  creationDate: Date;
+  createdAt: Date;
   updatedOn: Date;
 }
 
@@ -14,5 +14,7 @@ export interface Quote {
   journal: Journal;
 }
 
-export type PostArg = Pick<Journal, "title" | "content" | "quote">;
+export interface PostArg extends Pick<Journal, "title" | "content"> {
+  quote: { content: string };
+}
 export type PatchArg = Pick<Journal, "title" | "content" | "id">;

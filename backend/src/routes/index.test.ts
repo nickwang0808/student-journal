@@ -34,8 +34,8 @@ describe("Journal routes should work", () => {
     it("should create a post with a quote", async () => {
       const data = {
         title: "title A",
-        description: "desc",
-        quote: { name: "quote A" },
+        content: "desc",
+        quote: { content: "quote A" },
       };
 
       const { body, status } = await supertest(app)
@@ -49,8 +49,8 @@ describe("Journal routes should work", () => {
     it("should return 422 with bad request body", async () => {
       const data = {
         title: 1,
-        description: "desc",
-        quote: { name: "quote A" },
+        content: "desc",
+        quote: { content: "quote A" },
       };
 
       const { status } = await supertest(app).post("/journals").send(data);
@@ -64,7 +64,7 @@ describe("Journal routes should work", () => {
       const data = {
         id: 5,
         title: "title A updated",
-        description: "desc",
+        content: "desc",
       };
 
       const { body, status } = await supertest(app)
@@ -78,8 +78,8 @@ describe("Journal routes should work", () => {
     it("should return 422 with bad request body", async () => {
       const data = {
         title: 1,
-        description: "desc",
-        quote: { name: "quote A" },
+        content: "desc",
+        quote: { content: "quote A" },
       };
 
       const { status } = await supertest(app).patch("/journals").send(data);
@@ -116,31 +116,29 @@ async function seedDb() {
   const data = [
     {
       title: "title 1",
-      description: "description",
-      quote: { name: "quote 1" },
+      content: "content",
+      quote: { content: "quote 1" },
     },
     {
       title: "title 2",
-      description: "description",
-      quote: { name: "quote 2" },
+      content: "content",
+      quote: { content: "quote 2" },
     },
     {
       title: "title 3",
-      description: "description",
-      quote: { name: "quote 3" },
+      content: "content",
+      quote: { content: "quote 3" },
     },
     {
       title: "title 4",
-      description: "description",
-      quote: { name: "quote 4" },
+      content: "content",
+      quote: { content: "quote 4" },
     },
   ];
 
   await Promise.all(
-    data.map(async ({ title, description, quote }) => {
-      await (
-        await Journal.create({ title, description })
-      ).$create("quote", quote);
+    data.map(async ({ title, content, quote }) => {
+      await (await Journal.create({ title, content })).$create("quote", quote);
     })
   );
 }

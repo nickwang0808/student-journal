@@ -21,26 +21,26 @@ describe("models works", () => {
   });
 
   it("should create quote table and insert 1 quote", async () => {
-    await Quote.create({ name: "first quote" });
+    await Quote.create({ content: "first quote" });
 
     const quotes = await Quote.findAll();
 
     expect(quotes.length).toBe(1);
-    expect(quotes[0].name).toBe("first quote");
+    expect(quotes[0].content).toBe("first quote");
   });
 
   it("should create journal table and insert 1 journal", async () => {
     await (
       await Journal.create({
         title: "first journal",
-        description: "description",
+        content: "content",
       })
-    ).$create("quote", { name: "second quote" });
+    ).$create("quote", { content: "second quote" });
 
     const journal = await Journal.findOne({ include: [Quote] });
 
     expect(journal?.title).toBe("first journal");
-    expect(journal?.quote?.name).toBe("second quote");
+    expect(journal?.quote?.content).toBe("second quote");
   });
 
   it("quote ondelete is cascading", async () => {
