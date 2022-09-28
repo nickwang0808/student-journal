@@ -9,7 +9,7 @@ interface AddNewJournalProps {
 const AddNewJournal: FC<AddNewJournalProps> = ({ handleClick }) => {
   return (
     <ListItem>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton onClick={handleClick} sx={{ paddingLeft: 0 }}>
         <AddIcon /> Add new journal
       </ListItemButton>
     </ListItem>
