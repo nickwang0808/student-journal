@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import RootLayout from "./components/RootLayout";
 import Create from "./pages/Create";
@@ -11,7 +11,7 @@ import { store } from "./data/queries";
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Home />} />
@@ -19,7 +19,7 @@ function App() {
             <Route path="edit/:id" element={<Edit />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   );
 }

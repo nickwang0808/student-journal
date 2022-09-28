@@ -4,10 +4,8 @@ import { Journal, PatchArg, PostArg } from "./types";
 
 const serverURL =
   process.env.NODE_ENV === "production"
-    ? "https://fullstackjournalbackend-dev.us-east-1.elasticbeanstalk.com/"
+    ? "https://test1.nickwangtech.com"
     : "http://localhost:8000";
-
-// const serverURL = "http://localhost:8000";
 
 export const api = createApi({
   reducerPath: "journalApi",
