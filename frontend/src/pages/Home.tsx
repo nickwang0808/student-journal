@@ -4,7 +4,7 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
+  Typography,
 } from "@mui/material";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -59,13 +59,20 @@ const Home: FC = () => {
                 }}
               >
                 <Grid item>
-                  <ListItemText primary={title} />
+                  <Typography variant="h6">{title}</Typography>
                 </Grid>
                 <Grid item>
-                  <ListItemText primary={<i>"{quote.content}"</i>} />
+                  <Typography
+                    variant="body2"
+                    sx={{ textDecoration: "underline" }}
+                  >
+                    <i>"{quote.content}"</i>
+                  </Typography>
                 </Grid>
                 <Grid item>
-                  <ListItemText primary={new Date(createdAt).toString()} />
+                  <Typography variant="body2" color="#999999">
+                    {new Date(createdAt).toString()}
+                  </Typography>
                 </Grid>
               </Grid>
               <ListItemButton
