@@ -2,10 +2,17 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Journal, PatchArg, PostArg } from "./types";
 
+const serverURL =
+  process.env.NODE_ENV === "production"
+    ? "https://fullstackjournalbackend-dev.us-east-1.elasticbeanstalk.com/"
+    : "http://localhost:8000";
+
+// const serverURL = "http://localhost:8000";
+
 export const api = createApi({
   reducerPath: "journalApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
+    baseUrl: serverURL,
   }),
   tagTypes: ["journals"],
   endpoints: (builder) => ({
