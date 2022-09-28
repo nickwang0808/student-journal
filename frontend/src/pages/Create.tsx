@@ -1,6 +1,6 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import JournalForm from "../components/JournalForm";
 import { useGetQuoteQuery, usePostJournalMutation } from "../data/queries";
 import { PostArg } from "../data/types";
 
@@ -31,41 +31,18 @@ const Create = () => {
   }, [data]);
 
   return (
-    <>
-      <Box component="form" noValidate autoComplete="off">
-        <Grid container direction="column" gap={2}>
-          <Grid item>
-            <TextField
-              label="Title"
-              variant="outlined"
-              fullWidth
-              value={formData.title}
-              onChange={({ target }) =>
-                setFormData((prev) => ({ ...prev, title: target.value }))
-              }
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              label="Content"
-              variant="outlined"
-              multiline
-              fullWidth
-              minRows={10}
-              value={formData.content}
-              onChange={({ target }) =>
-                setFormData((prev) => ({ ...prev, content: target.value }))
-              }
-            />
-          </Grid>
-          <Grid item>
-            <Typography>{formData.quote.content}</Typography>
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Button onClick={handlePostJournal}>Save</Button>
-    </>
+    <JournalForm
+      titleValue={formData.title}
+      contentValue={formData.content ?? ""}
+      handleTitleInputChange={(value) =>
+        setFormData((prev) => ({ ...prev, title: value }))
+      }
+      handleContentInputChange={(value) =>
+        setFormData((prev) => ({ ...prev, content: value }))
+      }
+      quoteValue={formData.quote.content}
+      handleSave={handlePostJournal}
+    />
   );
 };
 
